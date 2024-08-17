@@ -1,0 +1,20 @@
+{
+  "name": "corrivate/module-layout-bricks",
+  "version": "1.0.0",
+  "description": "N/A",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*"
+  },
+  "license": [
+    "Massachusetts Institute of Technology License (MITL)"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Corrivate\\LayoutBricks\\": ""
+    }
+  }
+}
