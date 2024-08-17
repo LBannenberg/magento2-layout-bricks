@@ -11,7 +11,8 @@
   ],
   "autoload": {
     "files": [
-      "registration.php"
+      "registration.php",
+        "functions/brick.php"
     ],
     "psr-4": {
       "Corrivate\\LayoutBricks\\": ""
