@@ -1,0 +1,12 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+
+$with = $block->getData('with');
+?>
+
+<button type="<?= $escaper->escapeHtml($with['type'] ?? 'button')?>"
+        <?= ($with['disabled'] ?? false) ? 'disabled' : '' ?>
+        class="<?= $escaper->escapeHtml($with['classes'] ?? '')?>">
+    <?= __($with['label'] ?? 'Cancel')?>
+</button>
