@@ -2,15 +2,19 @@
 
 namespace Corrivate\LayoutBricks\Plugin\TemplateEngine;
 
-use Corrivate\LayoutBricks\Model\BrickLayer;
+use Corrivate\LayoutBricks\Model\BrickAttributesBagFactory;
+use Corrivate\LayoutBricks\Model\Mason;
 use Magento\Framework\View\Element\BlockInterface;
 use Magento\Framework\View\TemplateEngine\Php;
 
-class PhpPlugin
+readonly class PhpPlugin
 {
     public function __construct(
-        private readonly BrickLayer $brick
-    ){}
+        private Mason $mason,
+        private BrickAttributesBagFactory $brickAttributesBagFactory
+    ) {
+    }
+
     /**
      * @param  Php  $subject
      * @param  BlockInterface  $block
@@ -20,7 +24,13 @@ class PhpPlugin
      */
     public function beforeRender(Php $subject, BlockInterface $block, $fileName, array $dictionary = []): array
     {
-        $dictionary['brick'] = $this->brick;
+        $dictionary['mason'] = $this->mason;
+
+        if ($block->getData('is_brick')) {
+            $dictionary['attributes'] = $this->brickAttributesBagFactory->create($block->getData('brick_attributes'));
+            $dictionary['with'] = $block->getData('with');
+        }
+
         return [$block, $fileName, $dictionary];
     }
 }

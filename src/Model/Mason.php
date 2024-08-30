@@ -5,7 +5,7 @@ namespace Corrivate\LayoutBricks\Model;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Layout;
 
-class BrickLayer
+readonly class Mason
 {
     /**
      * @param  array<string, string>  $aliases
@@ -21,6 +21,8 @@ class BrickLayer
     public function __invoke(
         string $template = '',
         array $with = [],
+        array $attributes = [],
+        array $props = [],
         string $block = Template::class
     ): string
     {
@@ -32,6 +34,8 @@ class BrickLayer
             ->createBlock($block)
             ->setTemplate($template)
             ->setData('with', $with)
+            ->setData('is_brick', true)
+            ->setData('brick_attributes', $attributes)
             ->toHtml();
     }
 
