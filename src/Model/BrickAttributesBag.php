@@ -10,7 +10,7 @@ class BrickAttributesBag
     {
     }
 
-    public function merge(): static
+    public function merge($defaultAttributes = []): static
     {
         return $this;
     }
@@ -21,6 +21,10 @@ class BrickAttributesBag
     }
 
     public function __toString(){
-        return "test";
+        $output = [];
+        foreach($this->attributes as $key => $value) {
+            $output[] = $key . '="' . $value . '"';
+        }
+        return implode(' ', $output);
     }
 }

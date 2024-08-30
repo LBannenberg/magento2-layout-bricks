@@ -27,7 +27,9 @@ readonly class PhpPlugin
         $dictionary['mason'] = $this->mason;
 
         if ($block->getData('is_brick')) {
-            $dictionary['attributes'] = $this->brickAttributesBagFactory->create($block->getData('brick_attributes'));
+            $dictionary['attributes'] = $this->brickAttributesBagFactory->create(
+                ['attributes' => $block->getData('brick_attributes')]
+            );
             $dictionary['with'] = $block->getData('with');
         }
 
