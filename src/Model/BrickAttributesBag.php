@@ -10,7 +10,6 @@ class BrickAttributesBag
         'formnovalidate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open',
         'readonly', 'required', 'reversed', 'selected'
     ];
-    public const HTML_APPENDABLE_ATTRIBUTES = ['class', 'style'];
 
     public function __construct(
         private array $attributes = []
@@ -19,7 +18,19 @@ class BrickAttributesBag
 
     public function merge($defaultAttributes = []): static
     {
-        return $this;
+        $result = $defaultAttributes;
+        foreach($this->attributes as $key => $value) {
+            if ($key === 'class') {
+                $result['class'] = isset($result['class'])
+                    ? $result['class'] . ' ' . $value // Specific classes added after default, so that they can override
+                    : $value;
+            } elseif ($key === 'style') {
+                // TODO
+            } else {
+                $result[$key] = $value;
+            }
+        }
+        return new BrickAttributesBag($result);
     }
 
     public function toHtml(): string
