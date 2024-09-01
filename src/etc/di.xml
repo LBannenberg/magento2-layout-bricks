@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Framework\View\TemplateEngine\Php">
-        <plugin name="php_template_engine_plugin"
+        <plugin name="corrivate_layout_bricks_php_template_engine_plugin"
                 type="\Corrivate\LayoutBricks\Plugin\TemplateEngine\PhpPlugin"/>
     </type>
 </config>
