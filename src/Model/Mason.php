@@ -5,17 +5,25 @@ namespace Corrivate\LayoutBricks\Model;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Layout;
 
-readonly class Mason
+class Mason
 {
+    public array $aliases = [
+        // 'alias' => 'Vendor_Module::path/to/template.phtml' ; inject through frontend/di.xml or adminhtml/di.xml
+    ];
+    private Layout $layout;
+
     /**
      * @param  array<string, string>  $aliases
      */
     public function __construct(
-        private Layout $layout,
-        public array $aliases = [
+        Layout $layout,
+        array $aliases = [
             // 'alias' => 'Vendor_Module::path/to/template.phtml' ; inject through frontend/di.xml or adminhtml/di.xml
         ]
-    ){}
+    ){
+        $this->aliases = $aliases;
+        $this->layout = $layout;
+    }
 
 
     public function __invoke(

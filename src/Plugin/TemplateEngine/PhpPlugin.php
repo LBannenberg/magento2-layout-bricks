@@ -7,12 +7,17 @@ use Corrivate\LayoutBricks\Model\Mason;
 use Magento\Framework\View\Element\BlockInterface;
 use Magento\Framework\View\TemplateEngine\Php;
 
-readonly class PhpPlugin
+class PhpPlugin
 {
+    private Mason $mason;
+    private BrickAttributesBagFactory $brickAttributesBagFactory;
+
     public function __construct(
-        private Mason $mason,
-        private BrickAttributesBagFactory $brickAttributesBagFactory
+        Mason $mason,
+        BrickAttributesBagFactory $brickAttributesBagFactory
     ) {
+        $this->brickAttributesBagFactory = $brickAttributesBagFactory;
+        $this->mason = $mason;
     }
 
     /**
