@@ -3,7 +3,7 @@
 namespace Corrivate\LayoutBricks\Model;
 
 
-class BrickAttributesBag
+readonly class BrickAttributesBag
 {
     public const HTML_BOOLEAN_ATTRIBUTES = [ // sourced from https://meiert.com/en/blog/boolean-attributes-of-html/
         'allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled',
@@ -25,7 +25,11 @@ class BrickAttributesBag
                     ? $result['class'] . ' ' . $value // Specific classes added after default, so that they can override
                     : $value;
             } elseif ($key === 'style') {
-                // TODO
+                if(empty($result['style'])) {
+                    $result['style'] = $this->endWith($value, ';');
+                    continue;
+                }
+                $result['style'] = $this->endWith($result['style'], ';'). ' ' . $this->endWith($value, ';');
             } else {
                 $result[$key] = $value;
             }
@@ -51,5 +55,17 @@ class BrickAttributesBag
             }
         }
         return implode(' ', $output);
+    }
+
+    private function endWith(string $value, string $end): string
+    {
+        $value = trim($value);
+        if(strlen($value) == 0) {
+            return '';
+        }
+
+        return substr($value, -1) == $end
+            ? $value
+            : $value . $end;
     }
 }
