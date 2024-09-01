@@ -3,20 +3,22 @@
 namespace Corrivate\LayoutBricks\Model;
 
 
-readonly class BrickAttributesBag
+class BrickAttributesBag
 {
     public const HTML_BOOLEAN_ATTRIBUTES = [ // sourced from https://meiert.com/en/blog/boolean-attributes-of-html/
         'allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled',
         'formnovalidate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open',
         'readonly', 'required', 'reversed', 'selected'
     ];
+    private array $attributes = [];
 
     public function __construct(
-        private array $attributes = []
+        array $attributes = []
     ) {
+        $this->attributes = $attributes;
     }
 
-    public function merge($defaultAttributes = []): static
+    public function merge($defaultAttributes = []): BrickAttributesBag
     {
         $result = $defaultAttributes;
         foreach($this->attributes as $key => $value) {
