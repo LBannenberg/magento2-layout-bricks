@@ -20,7 +20,11 @@ declare(strict_types=1);
 <form method="post" action="/newsletter/subscribe">
 <?= $mason('cms.block', props: ['block_id' => 'newsletter-explanation']) ?>
 
-<?= $mason('ExampleCorp_ExampleModule::theme/input/text.phtml', ['required', 'class' => 'rounded-md text-stone-800 bg-stone-100', 'placeholder' => 'joe@examplecorp.com']) ?>
+<?= $mason('ExampleCorp_ExampleModule::theme/input/text.phtml', [
+    'required', 
+    'class' => 'rounded-md text-stone-800 bg-stone-100', 
+    'placeholder' => 'joe@examplecorp.com'
+]) ?>
 
 <?= $mason('btn-primary', attributes: ['type' => 'submit'], props: ['label' => __('Save')]) ?>
 </form>
@@ -31,7 +35,11 @@ declare(strict_types=1);
 The `$mason` object is globally injected into every `.phtml` template. It has just one method, `__invoke()`, to cause it to output as a string a fully rendered child block. So it's essentially a compact, ergonomic way of doing this:
 
 ```php
-<?= $block->layout->createBlock(\Magento\Framework\View\Element\Template::class)->setTemplate($template) ?>
+<?= $block
+    ->getLayout()
+    ->createBlock(\Magento\Framework\View\Element\Template::class)
+    ->setTemplate($template) 
+?>
 ```
 
 This is already nice, because we are now still using Magento's templating engine:
@@ -46,7 +54,10 @@ But there's more:
 
 For example, consider the `cms.block` brick: 
 ```php
-<?= $mason('cms.brick', attributes: ['class' => 'border-2 border-stone-400 rounded-lg'], props: ['block_id' => 'text-block']) ?>
+<?= $mason('cms.brick', 
+        attributes: ['class' => 'border-2 border-stone-400 rounded-lg'], 
+        props: ['block_id' => 'text-block']) 
+?>
 ```
 
 This will render the CMS block with ID 'text-block', but surround it in a div with a gray round border.
@@ -87,23 +98,38 @@ Aliases are created by injecting the with `frontend/di.xml` into the `\Corrivate
 The `$mason` objects invoke method accepts an array of attributes. For example:
 
 ```php
-<?= $mason('input.text', ['required', 'disabled' => false, 'class' => 'text-black', 'placeholder' => 'your input please', 'name' => 'user_comment']) ?>
+<?= $mason('input.text', [
+    'required', 
+    'disabled' => false, 
+    'class' => 'text-black', 
+    'placeholder' => 'your input please', 
+    'name' => 'user_comment'
+]) ?>
 ```
 
 In the brick template, this will be available as a BrickAttributesBag which could for example have the following default attributes/values:
 
 ```php
-<input <?= $attributes->merge(['class' => 'bg-white', 'disabled' => true, 'type' => 'text']) ?> />
+<input <?= $attributes->merge([
+    'class' => 
+    'bg-white', 
+    'disabled' => true, 
+    'type' => 'text'
+]) ?> />
 ```
 
 This would result in the following HTML:
 
 ```html
-<input class="bg-white text-black" type="text" required placeholder="your input please" name="user_comment"/>
+<input class="bg-white text-black" 
+       type="text" 
+       required 
+       placeholder="your input please" 
+       name="user_comment"/>
 ```
 
 * For most html attributes, the default value is printed unless there's a different value injected, then the injected value is printed.
-* For boolean html attributes (like 'required'), they're only printed if they are present with no value in the array, or truthy. Again, you can inject a value to override the default.
+* For boolean html attributes (like 'required'), they're only printed if they are present with no value in the array, or truthy. Again, you can inject a value to override the default. You can also of course have the boolean input be the result of some other method.
 * For style and class attributes, the injected values are appended after the default. With for example Tailwind CSS, this allows them to override the defaults because they come last.
 * Merging is in-place.
 
