@@ -7,9 +7,7 @@ use Magento\Framework\View\Layout;
 
 class Mason
 {
-    public array $aliases = [
-        // 'alias' => 'Vendor_Module::path/to/template.phtml' ; inject through frontend/di.xml or adminhtml/di.xml
-    ];
+    private array $aliases;
     private Layout $layout;
 
     /**
@@ -27,13 +25,14 @@ class Mason
 
 
     public function __invoke(
-        string $template = '',
+        string $template = '', // Alias or Magento path
         array $attributes = [],
         array $props = [],
         string $block = Template::class
     ): string
     {
-        if(!preg_match('/phtml$/', $template)) {
+        // Is it a Vendor_Module::path/to/template.phtml Magento path?
+        if(!preg_match('/^\w+_\w+::[\w\/]+\.phtml$/', $template)) {
             $template = $this->decodeAlias($template);
         }
 
@@ -47,11 +46,11 @@ class Mason
     }
 
 
-    public function decodeAlias(string $alias): string
+    private function decodeAlias(string $alias): string
     {
         if(isset($this->aliases[$alias])) {
             return $this->aliases[$alias];
         }
-        throw new \InvalidArgumentException("BrickLayer alias [ $alias ] not configured.");
+        throw new \InvalidArgumentException("\$mason alias [ $alias ] not configured.");
     }
 }
