@@ -28,7 +28,6 @@ class Mason
 
     public function __invoke(
         string $template = '',
-        array $with = [],
         array $attributes = [],
         array $props = [],
         string $block = Template::class
@@ -41,7 +40,6 @@ class Mason
         return $this->layout
             ->createBlock($block)
             ->setTemplate($template)
-            ->setData('with', $with)
             ->setData('is_brick', true)
             ->setData('brick_attributes', $attributes)
             ->setData('brick_props', $props)

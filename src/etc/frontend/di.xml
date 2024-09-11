@@ -4,8 +4,6 @@
     <type name="Corrivate\LayoutBricks\Model\Mason">
         <arguments>
             <argument name="aliases" xsi:type="array">
-                <item name="btn-cancel" xsi:type="string">Corrivate_LayoutBricks::buttons/cancel.phtml</item>
-                <item name="icons.external-link" xsi:type="string">Corrivate_LayoutBricks::heroicons/outline/arrow-top-right-on-square.phtml</item>
                 <item name="cms.block" xsi:type="string">Corrivate_LayoutBricks::cms/block.phtml</item>
             </argument>
         </arguments>

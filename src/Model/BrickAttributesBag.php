@@ -13,18 +13,17 @@ class BrickAttributesBag implements \ArrayAccess
         'formnovalidate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open',
         'readonly', 'required', 'reversed', 'selected'
     ];
-    private array $attributes = [];
 
     public function __construct(
         array $attributes = []
     ) {
-        $this->attributes = $attributes;
+        $this->container = $attributes;
     }
 
     public function merge($defaults = []): BrickAttributesBag
     {
         $result = $defaults;
-        foreach($this->attributes as $key => $value) {
+        foreach($this->container as $key => $value) {
             if ($key === 'class') {
                 $result['class'] = isset($result['class'])
                     ? $result['class'] . ' ' . $value // Specific classes added after default, so that they can override
@@ -51,7 +50,7 @@ class BrickAttributesBag implements \ArrayAccess
     public function __toString()
     {
         $output = [];
-        foreach ($this->attributes as $key => $value) {
+        foreach ($this->container as $key => $value) {
             if (in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
                 if ($value) {
                     $output[] = $key.'="'.$key.'"'; // We map for example ['checked' => true] to checked="checked"

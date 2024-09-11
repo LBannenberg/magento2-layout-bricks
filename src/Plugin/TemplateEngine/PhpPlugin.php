@@ -42,7 +42,6 @@ class PhpPlugin
             $dictionary['props'] = $this->brickPropsBagFactory->create(
                 ['props' => $block->getData('brick_props')]
             );
-            $dictionary['with'] = $block->getData('with');
         }
 
         return [$block, $fileName, $dictionary];
