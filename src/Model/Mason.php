@@ -44,6 +44,7 @@ class Mason
             ->setData('with', $with)
             ->setData('is_brick', true)
             ->setData('brick_attributes', $attributes)
+            ->setData('brick_props', $props)
             ->toHtml();
     }
 
