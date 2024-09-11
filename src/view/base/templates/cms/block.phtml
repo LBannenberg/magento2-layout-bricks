@@ -1,0 +1,18 @@
+<?php
+declare(strict_types=1);
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Corrivate\LayoutBricks\Model\BrickAttributesBag $attributes */
+/** @var \Corrivate\LayoutBricks\Model\BrickPropsBag $props */
+
+$props->merge(['block_id' => null]);
+
+$cmsBlock =  $this->getLayout()
+    ->createBlock('Magento\Cms\Block\Block')
+    ->setBlockId($props['block_id'])
+    ->toHtml();
+?>
+
+<div <?= $attributes->merge(['class' => '']) ?>>
+    <?= $cmsBlock ?>
+</div>
