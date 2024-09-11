@@ -132,3 +132,9 @@ declare(strict_types=1);
 The `$props` variable is not an array, but it implements `ArrayAccess` to give access to its contents.
 
 The `$props` variable also has a `$props->merge([])` method so you can supply default props which can you can then override from the parent template. Merging is in-place.
+
+
+## Escaper
+Because your bricks are almost certainly going to use HTML and might also involve some more fancy stuff (like entire Alpine components or reused JS functions) you cannot say that in general you should use this or that `$escaper` method on bricks that you insert.
+
+Rather, inside those brick templates themselves you should consider which parts should be escaped. When designing a brick template, you should ensure that the end user of the brick doesn't have to worry about it.
