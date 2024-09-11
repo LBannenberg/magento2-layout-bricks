@@ -3,8 +3,11 @@
 namespace Corrivate\LayoutBricks\Model;
 
 
-class BrickAttributesBag
+use Corrivate\LayoutBricks\Concern\IsArrayAccessible;
+
+class BrickAttributesBag implements \ArrayAccess
 {
+    use IsArrayAccessible;
     public const HTML_BOOLEAN_ATTRIBUTES = [ // sourced from https://meiert.com/en/blog/boolean-attributes-of-html/
         'allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled',
         'formnovalidate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open',
@@ -18,9 +21,9 @@ class BrickAttributesBag
         $this->attributes = $attributes;
     }
 
-    public function merge($defaultAttributes = []): BrickAttributesBag
+    public function merge($defaults = []): BrickAttributesBag
     {
-        $result = $defaultAttributes;
+        $result = $defaults;
         foreach($this->attributes as $key => $value) {
             if ($key === 'class') {
                 $result['class'] = isset($result['class'])
@@ -36,7 +39,8 @@ class BrickAttributesBag
                 $result[$key] = $value;
             }
         }
-        return new BrickAttributesBag($result);
+        $this->container = $result;
+        return $this;
     }
 
     public function toHtml(): string
