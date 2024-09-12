@@ -1,5 +1,9 @@
 # Layout Bricks for Magento
 
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/corrivate/magento2-layout-bricks?color=blue)](https://packagist.org/packages/corrivate/magento2-layout-bricks)
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
+
 *All in all you're just another brick in the layout*
 
 Modern frontend frameworks embrace reusable components, like buttons, input fields, and cards. And they style them with utility CSS like Tailwind. It's fine to pile a dozen classes on that primary button, because you only have to build it once.
