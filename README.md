@@ -6,6 +6,10 @@
 
 *All in all you're just another brick in the layout*
 
+```bash
+composer require corrivate/magento2-layout-bricks
+```
+
 Modern frontend frameworks embrace reusable components, like buttons, input fields, and cards. And they style them with utility CSS like Tailwind. It's fine to pile a dozen classes on that primary button, because you only have to build it once.
 
 Magento doesn't come with this out of the box. Many templates are *huge* and if you talk about UI components people make the sign of the ~~cross~~ XML at you. 
@@ -168,3 +172,16 @@ The `$props` variable also has a `$props->merge([])` method so you can supply de
 Because your bricks are almost certainly going to use HTML and might also involve some more fancy stuff (like entire Alpine components or reused JS functions) you cannot say that in general you should use this or that `$escaper` method on bricks that you insert.
 
 Rather, inside those brick templates themselves you should consider which parts should be escaped. When designing a brick template, you should ensure that the end user of the brick doesn't have to worry about it.
+
+## Corrivate
+(en.wiktionary.org)
+
+Etymology
+
+From Latin *corrivatus*, past participle of *corrivare* ("to corrivate").
+
+### Verb
+
+**corrivate** (*third-person singular simple present* **corrivates**, *present participle* **corrivating**, *simple past and past participle* **corrivated**)
+
+(*obsolete*) To cause to flow together, as water drawn from several streams. 
