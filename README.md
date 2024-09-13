@@ -62,7 +62,7 @@ But there's more:
 
 For example, consider the `cms.block` brick: 
 ```php
-<?= $mason('cms.brick', 
+<?= $mason('cms.block', 
         attributes: ['class' => 'border-2 border-stone-400 rounded-lg'], 
         props: ['block_id' => 'text-block']) 
 ?>
