@@ -2,7 +2,7 @@
 
 namespace Corrivate\LayoutBricks\Concern;
 
-trait IsArrayAccessible
+trait IsArrayAccessibleAndCountable
 {
     /**
      * @var array<string, mixed>
@@ -29,5 +29,10 @@ trait IsArrayAccessible
     public function offsetGet($offset): mixed
     {
         return $this->container[$offset];
+    }
+
+    public function count(): int
+    {
+        return count($this->container);
     }
 }

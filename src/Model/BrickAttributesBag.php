@@ -3,14 +3,14 @@
 namespace Corrivate\LayoutBricks\Model;
 
 
-use Corrivate\LayoutBricks\Concern\IsArrayAccessible;
+use Corrivate\LayoutBricks\Concern\IsArrayAccessibleAndCountable;
 
 /**
  * @implements \ArrayAccess<string, string>
  */
-class BrickAttributesBag implements \ArrayAccess
+class BrickAttributesBag implements \ArrayAccess, \Countable
 {
-    use IsArrayAccessible;
+    use IsArrayAccessibleAndCountable;
     public const HTML_BOOLEAN_ATTRIBUTES = [ // sourced from https://meiert.com/en/blog/boolean-attributes-of-html/
         'allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled',
         'formnovalidate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open',

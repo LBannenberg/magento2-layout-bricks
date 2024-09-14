@@ -3,14 +3,14 @@
 namespace Corrivate\LayoutBricks\Model;
 
 
-use Corrivate\LayoutBricks\Concern\IsArrayAccessible;
+use Corrivate\LayoutBricks\Concern\IsArrayAccessibleAndCountable;
 
 /**
  * @implements \ArrayAccess<string, mixed>
  */
-class BrickPropsBag implements \ArrayAccess
+class BrickPropsBag implements \ArrayAccess, \Countable
 {
-    use IsArrayAccessible;
+    use IsArrayAccessibleAndCountable;
 
     /**
      * @param  array<string, mixed>  $props
