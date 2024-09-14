@@ -5,6 +5,7 @@
         <arguments>
             <argument name="aliases" xsi:type="array">
                 <item name="cms.block" xsi:type="string">Corrivate_LayoutBricks::cms/block.phtml</item>
+                <item name="elements.link.external" xsi:type="string">Corrivate_LayoutBricks::elements/link/external.phtml</item>
             </argument>
         </arguments>
     </type>
