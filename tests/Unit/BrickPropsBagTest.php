@@ -11,13 +11,58 @@ class BrickPropsBagTest extends TestCase
 {
     public function testThatEmptyPropsBagCanBeInstantiated(){
         // ARRANGE
-        $bag = new BrickPropsBag([]);
+        $bag = new BrickPropsBag();
 
         // ACT
         // nothing to do here
 
         // ASSERT
         $this->assertSame(0, count($bag));
+    }
 
+    public function testThatInitialPropsCanBeAccessed(){
+        // ARRANGE
+        $bag = new BrickPropsBag(['foo' => 'bar']);
+
+        // ACT
+        // nothing to do here
+
+        // ASSERT
+        $this->assertSame('bar', $bag['foo']);
+    }
+
+    public function testThatDefaultPropsCanBeMergedAndAccessed(){
+        // ARRANGE
+        $bag = new BrickPropsBag();
+
+        // ACT
+        $bag->merge(['foo' => 'bar']);
+
+        // ASSERT
+        $this->assertSame('bar', $bag['foo']);
+    }
+
+    public function testThatInjectedPropsReplaceDefaultProps(){
+        // ARRANGE
+        $bag = new BrickPropsBag(['foo' => 'baz']);
+
+        // ACT
+        $bag->merge(['foo' => 'bar']);
+
+        // ASSERT
+        $this->assertSame('baz', $bag['foo']);
+    }
+
+
+    public function testThatBothDefaultAndInjectedPropsCanBeUsedTogether(){
+        // ARRANGE
+        $bag = new BrickPropsBag(['foo' => 'baz']);
+
+        // ACT
+        $bag->merge(['bar' => 'bar']);
+
+        // ASSERT
+        $this->assertSame('baz', $bag['foo']);
+        $this->assertSame('bar', $bag['bar']);
     }
 }
