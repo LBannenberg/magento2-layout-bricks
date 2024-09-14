@@ -64,6 +64,7 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
         foreach ($this->container as $key => $value) {
 
             // Boolean attributes just given as string, such as 'required'
+            // @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse
             if (is_int($key) && in_array($value, self::HTML_BOOLEAN_ATTRIBUTES)) {
                 $output[] = $value;
                 continue;
