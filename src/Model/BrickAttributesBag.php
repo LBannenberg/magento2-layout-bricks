@@ -5,6 +5,9 @@ namespace Corrivate\LayoutBricks\Model;
 
 use Corrivate\LayoutBricks\Concern\IsArrayAccessible;
 
+/**
+ * @implements \ArrayAccess<string, string>
+ */
 class BrickAttributesBag implements \ArrayAccess
 {
     use IsArrayAccessible;
@@ -14,13 +17,20 @@ class BrickAttributesBag implements \ArrayAccess
         'readonly', 'required', 'reversed', 'selected'
     ];
 
+    /**
+     * @param  array<string, string|array<string, bool>>  $attributes
+     */
     public function __construct(
         array $attributes = []
     ) {
         $this->container = $attributes;
     }
 
-    public function merge($defaults = []): BrickAttributesBag
+    /**
+     * @param array<string, string|array<string, bool>> $defaults
+     * @return $this
+     */
+    public function merge(array $defaults = []): BrickAttributesBag
     {
         $result = $defaults;
         foreach($this->container as $key => $value) {

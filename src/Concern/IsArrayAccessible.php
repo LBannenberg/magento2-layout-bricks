@@ -4,13 +4,14 @@ namespace Corrivate\LayoutBricks\Concern;
 
 trait IsArrayAccessible
 {
+    /**
+     * @var array<string, mixed>
+     */
     public array $container = [];
 
     public function offsetSet($offset, $value): void
     {
-        if (is_null($offset)) {
-            $this->container[] = $value;
-        } else {
+        if($offset) {
             $this->container[$offset] = $value;
         }
     }

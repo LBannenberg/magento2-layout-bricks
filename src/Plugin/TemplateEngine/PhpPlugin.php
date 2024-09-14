@@ -25,22 +25,20 @@ class PhpPlugin
     }
 
     /**
-     * @param  Php  $subject
-     * @param  BlockInterface  $block
      * @param  string  $fileName
-     * @param  array  $dictionary
-     * @return array
+     * @param  array<string, mixed>  $dictionary
+     * @return array<int, array<string, mixed>|\Magento\Framework\View\Element\BlockInterface|string>
      */
     public function beforeRender(Php $subject, BlockInterface $block, $fileName, array $dictionary = []): array
     {
         $dictionary['mason'] = $this->mason;
 
-        if ($block->getData('is_brick')) {
+        if ($block->getData('is_brick')) { // @phpstan-ignore method.notFound
             $dictionary['attributes'] = $this->brickAttributesBagFactory->create(
-                ['attributes' => $block->getData('brick_attributes')]
+                ['attributes' => $block->getData('brick_attributes')] // @phpstan-ignore method.notFound
             );
             $dictionary['props'] = $this->brickPropsBagFactory->create(
-                ['props' => $block->getData('brick_props')]
+                ['props' => $block->getData('brick_props')] // @phpstan-ignore method.notFound
             );
         }
 

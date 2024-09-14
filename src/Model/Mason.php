@@ -7,6 +7,9 @@ use Magento\Framework\View\Layout;
 
 class Mason
 {
+    /**
+     * @var array<string, string>
+     */
     private array $aliases;
     private Layout $layout;
 
@@ -24,6 +27,10 @@ class Mason
     }
 
 
+    /**
+     * @param  array<string, string|array<string, bool>>  $attributes
+     * @param  array<string, mixed>  $props
+     */
     public function __invoke(
         string $template = '', // Alias or Magento path
         array $attributes = [],
