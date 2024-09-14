@@ -11,6 +11,7 @@ use Corrivate\LayoutBricks\Concern\IsArrayAccessibleAndCountable;
 class BrickAttributesBag implements \ArrayAccess, \Countable
 {
     use IsArrayAccessibleAndCountable;
+
     public const HTML_BOOLEAN_ATTRIBUTES = [ // sourced from https://meiert.com/en/blog/boolean-attributes-of-html/
         'allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled',
         'formnovalidate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open',
@@ -27,23 +28,23 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     }
 
     /**
-     * @param array<string, string|array<string, bool>> $defaults
+     * @param  array<string, string|array<string, bool>>  $defaults
      * @return $this
      */
     public function merge(array $defaults = []): BrickAttributesBag
     {
         $result = $defaults;
-        foreach($this->container as $key => $value) {
+        foreach ($this->container as $key => $value) {
             if ($key === 'class') {
                 $result['class'] = isset($result['class'])
-                    ? $result['class'] . ' ' . $value // Specific classes added after default, so that they can override
+                    ? $result['class'].' '.$value // Specific classes added after default, so that they can override
                     : $value;
             } elseif ($key === 'style') {
-                if(empty($result['style'])) {
+                if (empty($result['style'])) {
                     $result['style'] = $this->endWith($value, ';');
                     continue;
                 }
-                $result['style'] = $this->endWith($result['style'], ';'). ' ' . $this->endWith($value, ';');
+                $result['style'] = $this->endWith($result['style'], ';').' '.$this->endWith($value, ';');
             } else {
                 $result[$key] = $value;
             }
@@ -61,13 +62,23 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     {
         $output = [];
         foreach ($this->container as $key => $value) {
-            if (in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
-                if ($value) {
-                    $output[] = $key.'="'.$key.'"'; // We map for example ['checked' => true] to checked="checked"
-                }
-            } else {
-                $output[] = $key.'="'.$value.'"';
+
+            // Boolean attributes just given as string, such as 'required'
+            if (is_int($key) && in_array($value, self::HTML_BOOLEAN_ATTRIBUTES)) {
+                $output[] = $value;
+                continue;
             }
+
+            // Boolean attributes given as a key => truth value, such as 'required' => $isGuest
+            if (in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
+                if($value) {
+                    $output[] = $key; // We map for example ['checked' => true] to checked
+                }
+                continue;
+            }
+
+            // Non-Boolean attributes
+            $output[] = $key.'="'.$value.'"';
         }
         return implode(' ', $output);
     }
@@ -75,12 +86,12 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     private function endWith(string $value, string $end): string
     {
         $value = trim($value);
-        if(strlen($value) == 0) {
+        if (strlen($value) == 0) {
             return '';
         }
 
         return substr($value, -1) == $end
             ? $value
-            : $value . $end;
+            : $value.$end;
     }
 }

@@ -9,7 +9,8 @@ use Corrivate\LayoutBricks\Model\BrickAttributesBag;
 
 class BrickAttributesBagTest extends TestCase
 {
-    public function testThatAnEmptyBagCanBeRendered(){
+    public function testThatAnEmptyBagCanBeRendered()
+    {
         // ARRANGE
         $bag = new BrickAttributesBag();
 
@@ -19,5 +20,80 @@ class BrickAttributesBagTest extends TestCase
         // ASSERT
         $this->assertSame(0, count($bag));
         $this->assertSame('', $output);
+    }
+
+
+    public function testThatInitialAttributesArePrintedSeparatedBySpaces()
+    {
+        // ARRANGE
+        $bag = new BrickAttributesBag(['class' => 'bg-black', 'foo' => 'bar']);
+
+        // ACT
+        // nothing to do here
+
+        // ASSERT
+        $this->assertSame(2, count($bag));
+        $this->assertSame('class="bg-black" foo="bar"', $bag->toHtml());
+    }
+
+
+    public function testThatDefaultAttributesCanBeSet()
+    {
+        // ARRANGE
+        $bag = new BrickAttributesBag();
+
+        // ACT
+        $bag->merge(['foo' => 'bar']);
+
+        // ASSERT
+        $this->assertSame(1, count($bag));
+        $this->assertSame('foo="bar"', $bag->toHtml());
+    }
+
+
+    public function testThatDefaultClassesArePrependedBeforeInjectedClasses()
+    {
+        // ARRANGE
+        $bag = new BrickAttributesBag(['class' => 'bg-black']);
+
+        // ACT
+        $bag->merge(['class' => 'text-white']);
+
+        // ASSERT
+        $this->assertSame(1, count($bag));
+        $this->assertSame('class="text-white bg-black"', $bag->toHtml());
+    }
+
+
+    public function testThatBooleanAttributesAreRenderedOnlyIfTruthy()
+    {
+        // ARRANGE
+        $bag = new BrickAttributesBag([
+            'required',
+            'checked' => true,
+            'autoplay',
+            'disabled' => false,
+            'selected' => 'false' // haha! string is not falsey!
+        ]);
+
+        // ACT
+        // nothing to do here
+
+        // ASSERT
+        $this->assertSame('required checked autoplay selected', $bag->toHtml());
+    }
+
+
+    public function testThatInjectedStylesAreAppendedAfterDefaults(){
+        // ARRANGE
+        $bag = new BrickAttributesBag([
+            'style' => 'height:12px' // intentionally forgetting closing ';'
+        ]);
+
+        // ACT
+        $bag->merge(['style' => 'width:12px;']);
+
+        // ASSERT
+        $this->assertSame('style="width:12px; height:12px;"', $bag->toHtml());
     }
 }
