@@ -1,6 +1,6 @@
 parameters:
-    #    phpVersion: 70400 # also supported
-    #    phpVersion: 80100 # also supported
+#    phpVersion: 70400 # also supported
+#    phpVersion: 80100 # also supported
     phpVersion: 80200 # also supported
 #    phpVersion: 80300 # also supported
     level: 8
@@ -9,8 +9,5 @@ parameters:
         # epecting the package to located in {project root}/packages/corrivate/magento2-layout-bricks
         # expecting you to be using composer "path" repository for local development
         - src
-    ignoreErrors:
-        # Magento makes use of some methods defined on the concrete class, but not the interface
-        - '#Call to an undefined method Magento\\Framework\\App\\RequestInterface::#'
     excludePaths:
         - tests/*
