@@ -12,7 +12,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": "~7.4.0||~8.0.0||~8.1.0||~8.2.0||~8.3.0",
-        "magento/framework": "*"
+        "magento/framework": "*",
+        "magento/module-cms": "*"
     },
     "require-dev": {
         "bitexpert/phpstan-magento": "^0.30.1",
