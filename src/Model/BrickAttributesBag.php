@@ -18,6 +18,7 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
         'readonly', 'required', 'reversed', 'selected'
     ];
 
+
     /**
      * @param  array<string|int, string|bool>  $attributes
      */
@@ -55,10 +56,24 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
         return $this;
     }
 
+
+    public function whereStartsWith(string $startsWith): BrickAttributesBag
+    {
+        $result = [];
+        foreach ($this->container as $key => $value) {
+            if (substr($key, 0, strlen($startsWith)) === $startsWith) {
+                $result[$key] = $value;
+            }
+        }
+        return new BrickAttributesBag($result);
+    }
+
+
     public function toHtml(): string
     {
         return (string) $this;
     }
+
 
     public function __toString()
     {
@@ -66,7 +81,7 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
         foreach ($this->container as $key => $value) {
             // Render only truthy boolean attributes
             if (in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
-                if($value) {
+                if ($value) {
                     $output[] = $key; // We map for example ['checked' => true] to checked
                 }
                 continue;
@@ -77,6 +92,7 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
         }
         return implode(' ', $output);
     }
+
 
     private function endWith(string $value, string $end): string
     {
@@ -90,6 +106,7 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
             : $value.$end;
     }
 
+
     /**
      * @param  array<string|int, string|bool>  $attributes
      * @return array<string, string|bool>
@@ -97,16 +114,16 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     private function sanitizeBooleanAttributes(array $attributes): array
     {
         $result = [];
-        foreach($attributes as $key => $value) {
-            if(is_int($key) && in_array($value, self::HTML_BOOLEAN_ATTRIBUTES)) {
-                $result[(string)$value] = true;
+        foreach ($attributes as $key => $value) {
+            if (is_int($key) && in_array($value, self::HTML_BOOLEAN_ATTRIBUTES)) {
+                $result[(string) $value] = true;
                 continue;
             }
-            if(in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
-                $result[(string)$key] = (bool)$value;
+            if (in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
+                $result[(string) $key] = (bool) $value;
                 continue;
             }
-            $result[(string)$key] = $value;
+            $result[(string) $key] = $value;
         }
         return $result;
     }

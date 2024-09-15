@@ -114,4 +114,23 @@ class BrickAttributesBagTest extends TestCase
         // ASSERT
         $this->assertSame('style="width:12px; height:12px;"', $bag->toHtml());
     }
+
+
+    public function testThatWhereStartsWithReturnsANewBagWithOnlyThoseAttributes(){
+        // ARRANGE
+        $bag = new BrickAttributesBag([
+            'required',
+            'disabled',
+            'checked',
+            'selected',
+            'readonly'
+        ]);
+
+        // ACT
+        $only = $bag->whereStartsWith('re');
+
+        // ASSERT
+        $this->assertSame('required disabled checked selected readonly', $bag->toHtml());
+        $this->assertSame('required readonly', $only->toHtml());
+    }
 }
