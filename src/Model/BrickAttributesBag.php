@@ -69,6 +69,18 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     }
 
 
+    public function whereDoesntStartWith(string $startsWith): BrickAttributesBag
+    {
+        $result = [];
+        foreach ($this->container as $key => $value) {
+            if (substr($key, 0, strlen($startsWith)) !== $startsWith) {
+                $result[$key] = $value;
+            }
+        }
+        return new BrickAttributesBag($result);
+    }
+
+
     public function toHtml(): string
     {
         return (string) $this;
