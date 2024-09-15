@@ -5,7 +5,7 @@ namespace Corrivate\LayoutBricks\Concern;
 trait IsArrayAccessibleAndCountable
 {
     /**
-     * @var array<string, mixed>
+     * @var array<string|int, mixed>
      */
     public array $container = [];
 

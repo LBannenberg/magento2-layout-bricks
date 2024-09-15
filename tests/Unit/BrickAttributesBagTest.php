@@ -84,6 +84,24 @@ class BrickAttributesBagTest extends TestCase
     }
 
 
+    public function testThatInjectedBooleanAttributesTrumpDefaultValues()
+    {
+        // ARRANGE
+        $bag = new BrickAttributesBag([
+            'checked' => true,
+            'autoplay',
+            'disabled' => false,
+            'selected' => 'false' // haha! string is not falsey!
+        ]);
+
+        // ACT
+        $bag->merge(['required', 'checked' => false, 'disabled' => true]);
+
+        // ASSERT
+        $this->assertSame('required checked autoplay selected', $bag->toHtml());
+    }
+
+
     public function testThatInjectedStylesAreAppendedAfterDefaults(){
         // ARRANGE
         $bag = new BrickAttributesBag([

@@ -19,20 +19,22 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     ];
 
     /**
-     * @param  array<string, string|array<string, bool>>  $attributes
+     * @param  array<string|int, string|bool>  $attributes
      */
     public function __construct(
         array $attributes = []
     ) {
+        $attributes = $this->sanitizeBooleanAttributes($attributes);
         $this->container = $attributes;
     }
 
     /**
-     * @param  array<string, string|array<string, bool>>  $defaults
+     * @param  array<string|int, string|bool>  $defaults
      * @return $this
      */
     public function merge(array $defaults = []): BrickAttributesBag
     {
+        $defaults = $this->sanitizeBooleanAttributes($defaults);
         $result = $defaults;
         foreach ($this->container as $key => $value) {
             if ($key === 'class') {
@@ -62,15 +64,7 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     {
         $output = [];
         foreach ($this->container as $key => $value) {
-
-            // Boolean attributes just given as string, such as 'required'
-            // @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse
-            if (is_int($key) && in_array($value, self::HTML_BOOLEAN_ATTRIBUTES)) {
-                $output[] = $value;
-                continue;
-            }
-
-            // Boolean attributes given as a key => truth value, such as 'required' => $isGuest
+            // Render only truthy boolean attributes
             if (in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
                 if($value) {
                     $output[] = $key; // We map for example ['checked' => true] to checked
@@ -94,5 +88,26 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
         return substr($value, -1) == $end
             ? $value
             : $value.$end;
+    }
+
+    /**
+     * @param  array<string|int, string|bool>  $attributes
+     * @return array<string, string|bool>
+     */
+    private function sanitizeBooleanAttributes(array $attributes): array
+    {
+        $result = [];
+        foreach($attributes as $key => $value) {
+            if(is_int($key) && in_array($value, self::HTML_BOOLEAN_ATTRIBUTES)) {
+                $result[(string)$value] = true;
+                continue;
+            }
+            if(in_array($key, self::HTML_BOOLEAN_ATTRIBUTES)) {
+                $result[(string)$key] = (bool)$value;
+                continue;
+            }
+            $result[(string)$key] = $value;
+        }
+        return $result;
     }
 }
