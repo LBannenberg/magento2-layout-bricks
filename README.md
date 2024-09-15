@@ -18,8 +18,7 @@ This package is a way to make things better. To use small anonymous components w
 
 ## An example phtml template
 ```php
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /** @var \Magento\Framework\View\Element\Template $block */
 /** @var \Magento\Framework\Escaper $escaper */
 /** @var \Corrivate\LayoutBricks\Model\Mason $mason */
@@ -103,6 +102,8 @@ Aliases are created by injecting the with `frontend/di.xml` into the `\Corrivate
 
 ## Attributes
 
+[Attributes in detail](docs/Attributes.md)
+
 The `$mason` objects invoke method accepts an array of attributes. For example:
 
 ```php
@@ -136,10 +137,7 @@ This would result in the following HTML:
        name="user_comment"/>
 ```
 
-* For most html attributes, the default value is printed unless there's a different value injected, then the injected value is printed.
-* For boolean html attributes (like 'required'), they're only printed if they are present with no value in the array, or truthy. Again, you can inject a value to override the default. You can also of course have the boolean input be the result of some other method.
-* For style and class attributes, the injected values are appended after the default. With for example Tailwind CSS, this allows them to override the defaults because they come last.
-* Merging is in-place.
+[Attributes in detail](docs/Attributes.md)
 
 ## Props
 
