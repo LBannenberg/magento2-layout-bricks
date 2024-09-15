@@ -5,7 +5,7 @@ namespace Corrivate\LayoutBricks\Concern;
 trait IsArrayAccessibleAndCountable
 {
     /**
-     * @var array<string|int, mixed>
+     * @var array<string, mixed>
      */
     public array $container = [];
 
@@ -26,7 +26,12 @@ trait IsArrayAccessibleAndCountable
         unset($this->container[$offset]);
     }
 
-    public function offsetGet($offset): mixed
+    /**
+     * @param $offset
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange] // Needed to placate PHPstan @ 8.2 and maintain 7.4 compatibility at the same time
+    public function offsetGet($offset)
     {
         return $this->container[$offset];
     }

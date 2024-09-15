@@ -152,4 +152,42 @@ class BrickAttributesBagTest extends TestCase
         $this->assertSame('required disabled checked selected readonly', $bag->toHtml());
         $this->assertSame('disabled checked selected', $without->toHtml());
     }
+
+
+    public function testThatOnlyReturnsABagWithOnlyThoseAttributes(){
+        // ARRANGE
+        $bag = new BrickAttributesBag([
+            'required',
+            'disabled',
+            'checked',
+            'selected',
+            'readonly'
+        ]);
+
+        // ACT
+        $without = $bag->only('disabled', 'checked', 'selected');
+
+        // ASSERT
+        $this->assertSame('required disabled checked selected readonly', $bag->toHtml());
+        $this->assertSame('disabled checked selected', $without->toHtml());
+    }
+
+
+    public function testThatWithoutReturnsABagWithoutThoseAttributes(){
+        // ARRANGE
+        $bag = new BrickAttributesBag([
+            'required',
+            'disabled',
+            'checked',
+            'selected',
+            'readonly'
+        ]);
+
+        // ACT
+        $without = $bag->without('disabled', 'checked', 'selected');
+
+        // ASSERT
+        $this->assertSame('required disabled checked selected readonly', $bag->toHtml());
+        $this->assertSame('required readonly', $without->toHtml());
+    }
 }

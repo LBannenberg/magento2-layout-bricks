@@ -81,6 +81,30 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
     }
 
 
+    public function only(string ...$keys): BrickAttributesBag
+    {
+        $only = [];
+        foreach($keys as $key) {
+            if(isset($this->container[$key])) {
+                $only[$key] = $this->container[$key];
+            }
+        }
+        return new BrickAttributesBag($only);
+    }
+
+
+    public function without(string ...$withoutKeys): BrickAttributesBag
+    {
+        $keep = [];
+        foreach($this->container as $key => $value) {
+            if(!in_array($key, $withoutKeys)) {
+                $keep[$key] = $value;
+            }
+        }
+        return new BrickAttributesBag($keep);
+    }
+
+
     public function toHtml(): string
     {
         return (string) $this;
