@@ -78,7 +78,7 @@ class MasonTest extends TestCase
         $mason('Corrivate_LayoutBricks::elements/link/external.phtml');
 
         // ASSERT
-        // The exception should have been thrown
+        // The exception should NOT have been thrown
     }
 
 }
