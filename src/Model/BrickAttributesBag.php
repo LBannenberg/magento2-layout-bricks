@@ -33,7 +33,7 @@ class BrickAttributesBag implements \ArrayAccess, \Countable
      * @param  array<string|int, string|bool>  $defaults
      * @return $this
      */
-    public function merge(array $defaults = []): BrickAttributesBag
+    public function default(array $defaults = []): BrickAttributesBag
     {
         $defaults = $this->sanitizeBooleanAttributes($defaults);
         $result = $defaults;

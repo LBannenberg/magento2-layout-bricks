@@ -43,7 +43,7 @@ class BrickAttributesBagTest extends TestCase
         $bag = new BrickAttributesBag();
 
         // ACT
-        $bag->merge(['foo' => 'bar']);
+        $bag->default(['foo' => 'bar']);
 
         // ASSERT
         $this->assertSame(1, count($bag));
@@ -57,7 +57,7 @@ class BrickAttributesBagTest extends TestCase
         $bag = new BrickAttributesBag(['class' => 'bg-black']);
 
         // ACT
-        $bag->merge(['class' => 'text-white']);
+        $bag->default(['class' => 'text-white']);
 
         // ASSERT
         $this->assertSame(1, count($bag));
@@ -95,7 +95,7 @@ class BrickAttributesBagTest extends TestCase
         ]);
 
         // ACT
-        $bag->merge(['required', 'checked' => false, 'disabled' => true]);
+        $bag->default(['required', 'checked' => false, 'disabled' => true]);
 
         // ASSERT
         $this->assertSame('required checked autoplay selected', $bag->toHtml());
@@ -109,7 +109,7 @@ class BrickAttributesBagTest extends TestCase
         ]);
 
         // ACT
-        $bag->merge(['style' => 'width:12px;']);
+        $bag->default(['style' => 'width:12px;']);
 
         // ASSERT
         $this->assertSame('style="width:12px; height:12px;"', $bag->toHtml());

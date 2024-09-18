@@ -24,7 +24,7 @@ class BrickPropsBag implements \ArrayAccess, \Countable
     /**
      * @param array<string, mixed> $defaults
      */
-    public function merge(array $defaults = []): BrickPropsBag
+    public function default(array $defaults = []): BrickPropsBag
     {
         $result = $defaults;
         foreach ($this->container as $key => $value) {

@@ -21,7 +21,7 @@ And inside the component it would look like:
 /** @var \Corrivate\LayoutBricks\Model\BrickPropsBag $props */
 ?>
 
-<button <?= $attributes->merge(['type' => 'button', 'class' => 'text-black bg-green-500']) ?>>
+<button <?= $attributes->default(['type' => 'button', 'class' => 'text-black bg-green-500']) ?>>
     <?= __('Ok') ?>
 </button>
 ```
@@ -36,10 +36,10 @@ The resulting HTML would be:
 
 As you can see, we get both the default attributes (type=button, text-black) as the injected ones (text-blue-800). Because the injected CSS classes are placed last, and assuming no weird specificity problems, they will have the last word.
 
-**NOTE** The `merge()` method is in-place, so if you call:
+**NOTE** The `default()` method merges in-place, so if you call:
 
 ```php
-$attributes->merge(['style' => 'display: none;']);
+$attributes->default(['style' => 'display: none;']);
 echo $attributes;
 ```
 

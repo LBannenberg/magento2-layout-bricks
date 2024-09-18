@@ -36,7 +36,7 @@ class BrickPropsBagTest extends TestCase
         $bag = new BrickPropsBag();
 
         // ACT
-        $bag->merge(['foo' => 'bar']);
+        $bag->default(['foo' => 'bar']);
 
         // ASSERT
         $this->assertSame('bar', $bag['foo']);
@@ -47,7 +47,7 @@ class BrickPropsBagTest extends TestCase
         $bag = new BrickPropsBag(['foo' => 'baz']);
 
         // ACT
-        $bag->merge(['foo' => 'bar']);
+        $bag->default(['foo' => 'bar']);
 
         // ASSERT
         $this->assertSame('baz', $bag['foo']);
@@ -59,7 +59,7 @@ class BrickPropsBagTest extends TestCase
         $bag = new BrickPropsBag(['foo' => 'baz']);
 
         // ACT
-        $bag->merge(['bar' => 'bar']);
+        $bag->default(['bar' => 'bar']);
 
         // ASSERT
         $this->assertSame('baz', $bag['foo']);

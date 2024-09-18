@@ -119,7 +119,7 @@ The `$mason` objects invoke method accepts an array of attributes. For example:
 In the brick template, this will be available as a BrickAttributesBag which could for example have the following default attributes/values:
 
 ```php
-<input <?= $attributes->merge([
+<input <?= $attributes->default([
     'class' => 
     'bg-white', 
     'disabled' => true, 
@@ -163,7 +163,7 @@ declare(strict_types=1);
 
 The `$props` variable is not an array, but it implements `ArrayAccess` to give access to its contents.
 
-The `$props` variable also has a `$props->merge([])` method so you can supply default props which can you can then override from the parent template. Merging is in-place.
+The `$props` variable also has a `$props->default([])` method so you can supply default (scalar) props which can you can then override from the parent template.
 
 
 ## Escaper

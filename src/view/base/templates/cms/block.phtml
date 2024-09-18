@@ -5,7 +5,7 @@ declare(strict_types=1);
 /** @var \Corrivate\LayoutBricks\Model\BrickAttributesBag $attributes */
 /** @var \Corrivate\LayoutBricks\Model\BrickPropsBag $props */
 
-$props->merge(['block_id' => null]);
+$props->default(['block_id' => null]);
 
 $cmsBlock =  $this->getLayout()
     ->createBlock('Magento\Cms\Block\Block')
@@ -13,6 +13,6 @@ $cmsBlock =  $this->getLayout()
     ->toHtml();
 ?>
 
-<div <?= $attributes->merge(['class' => '']) ?>>
+<div <?= $attributes->default(['class' => '']) ?>>
     <?= $cmsBlock ?>
 </div>
