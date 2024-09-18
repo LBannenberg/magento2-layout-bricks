@@ -129,7 +129,7 @@ class BrickPropsBagTest extends TestCase
     public function testThatNullablePropsAreStillCheckedIfPresent()
     {
         // ARRANGE
-        $bag = new BrickPropsBag(['price' => '1.5']);
+        $bag = new BrickPropsBag(['price' => '1.5']); // string, not float!
 
         // EXPECT
         $this->expectException(PropHasUnexpectedTypeException::class);
@@ -149,6 +149,17 @@ class BrickPropsBagTest extends TestCase
         $bag->expect(['price' => '?float']);
 
         $this->assertSame(null, $bag['price']);
+    }
+
+    public function testThatNullablePropsAreAcceptedIfPresentAndCorrect()
+    {
+        // ARRANGE
+        $bag = new BrickPropsBag(['price' => 1.5]);
+
+        // ACT
+        $bag->expect(['price' => '?float']);
+
+        $this->assertSame(1.5, $bag['price']);
     }
 
 
@@ -199,19 +210,19 @@ class BrickPropsBagTest extends TestCase
         $bag->expect(['qty_ordered' => 'int|float', 'qty_shipped' => 'int|float']);
     }
 
-//    public function testThatPropExpectationsRejectInvalidNullableDefinitions()
-//    {
-//        // ARRANGE
-//        $bag = new BrickPropsBag([
-//            'qty_ordered' => 5.5,
-//            'qty_shipped' => 4
-//        ]);
-//
-//        // EXPECT
-//        $this->expectException(PropExpectedTypeStringInvalidException::class);
-//        $this->expectExceptionMessage("Cannot use '?' to start a prop's type-string AND use |; use |null instead.");
-//
-//        // ACT
-//        $bag->expect(['qty_ordered' => '?int|float', 'qty_shipped' => 'int|float']);
-//    }
+    public function testThatPropExpectationsRejectInvalidNullableDefinitions()
+    {
+        // ARRANGE
+        $bag = new BrickPropsBag([
+            'qty_ordered' => 5.5,
+            'qty_shipped' => 4
+        ]);
+
+        // EXPECT
+        $this->expectException(PropExpectedTypeStringInvalidException::class);
+        $this->expectExceptionMessage("Cannot use '?' to start a prop's type-string AND use |; use |null instead.");
+
+        // ACT
+        $bag->expect(['qty_ordered' => '?int|float', 'qty_shipped' => 'int|float']);
+    }
 }

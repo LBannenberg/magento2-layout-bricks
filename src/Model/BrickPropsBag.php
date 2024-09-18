@@ -53,8 +53,13 @@ class BrickPropsBag implements \ArrayAccess, \Countable
                 );
             }
 
+            $nullable = false;
+            if(substr($acceptedTypesString, 0, 1) === '?') {
+                $nullable = true;
+                $acceptedTypesString = substr($acceptedTypesString, 1);
+            }
             $acceptedTypes = explode('|', $acceptedTypesString);
-            $nullable = substr($acceptedTypesString, 0, 1) === '?' || in_array('null', $acceptedTypes);
+            $nullable = $nullable || in_array('null', $acceptedTypes);
 
             if ($nullable
                 && (!in_array($propName, array_keys($this->container))
@@ -116,6 +121,10 @@ class BrickPropsBag implements \ArrayAccess, \Countable
             $actualType = gettype($subject) == 'object'
                 ? get_class($subject)
                 : gettype($subject);
+            // Undo removing '?' prefix, if needed
+            $acceptedTypesString = $nullable && count($acceptedTypes) == 1
+                ? '?'.$acceptedTypesString
+                : $acceptedTypesString;
             throw new PropHasUnexpectedTypeException(
                 "Prop '$propName' has unexpected type '$actualType', expected '$acceptedTypesString'"
             );
