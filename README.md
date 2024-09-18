@@ -71,8 +71,10 @@ This will render the CMS block with ID 'text-block', but surround it in a div wi
 
 ## Aliases
 
+[Aliases in detail](docs/Aliases.md)
+
 You can place bricks in two ways:
-* Directly cite the Magento template path:
+* Fully cite the Magento template path:
 
 ```php
 <?= $mason('Corrivate_LayoutBricks::cms/block.phtml', props: ['block_id' => 'test-block']) ?>
@@ -84,21 +86,7 @@ You can place bricks in two ways:
 <?= $mason('cms.block', props: ['block_id' => 'test-block']) ?>
 ``` 
 
-Aliases are created by injecting the with `frontend/di.xml` into the `\Corrivate\LayoutBricks\Model\Mason` constructor's `aliases` array:
-
-```xml
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Corrivate\LayoutBricks\Model\Mason">
-        <arguments>
-            <argument name="aliases" xsi:type="array">
-                <item name="cms.block" xsi:type="string">Corrivate_LayoutBricks::cms/block.phtml</item>
-            </argument>
-        </arguments>
-    </type>
-</config>
-```
+[Aliases in detail](docs/Aliases.md)
 
 ## Attributes
 
@@ -107,7 +95,7 @@ Aliases are created by injecting the with `frontend/di.xml` into the `\Corrivate
 The `$mason` objects invoke method accepts an array of attributes. For example:
 
 ```php
-<?= $mason('input.text', [
+<?= $mason('input.text', attributes: [
     'required', 
     'disabled' => false, 
     'class' => 'text-black', 
@@ -127,7 +115,7 @@ In the brick template, this will be available as a BrickAttributesBag which coul
 ]) ?> />
 ```
 
-This would result in the following HTML:
+This would result in the following HTML after the defaults and your custom input is merged:
 
 ```html
 <input class="bg-white text-black" 
@@ -141,6 +129,8 @@ This would result in the following HTML:
 
 ## Props
 
+[Props in detail](docs/Props.md)
+
 Props are used to pass data to the brick. For example, if you were making a brick to render a "product card", you'd pass the product that needs to be displayed:
 
 ```php
@@ -150,26 +140,61 @@ Props are used to pass data to the brick. For example, if you were making a bric
 In the brick template, the props are available through the `$props` variable, which is automatically present:
 
 ```php
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /** @var \Magento\Framework\View\Element\Template $block */
 /** @var \Magento\Framework\Escaper $escaper */
 /** @var \Corrivate\LayoutBricks\Model\BrickAttributesBag $attributes */
 /** @var \Corrivate\LayoutBricks\Model\BrickPropsBag $props */
 ?>
 
-<?= $props['product']->getSku() ?>
+<div class="border-2 border-color-stone-600 rounded-md">
+    <?= $props['product']->getSku() ?>
+</div>
+
 ```
 
 The `$props` variable is not an array, but it implements `ArrayAccess` to give access to its contents.
 
-The `$props` variable also has a `$props->default([])` method so you can supply default (scalar) props which can you can then override from the parent template.
+The `$props` variable also has a `$props->default([])` method so you can supply default (scalar) props. You can always override those default from the parent template. 
+
+The `$props` object also has a `$props->expect([])` method which allows you to specify expected props and their data types so you can opt into greater type safety.
+
+[Props in detail](docs/Props.md)
 
 
 ## Escaper
-Because your bricks are almost certainly going to use HTML and might also involve some more fancy stuff (like entire Alpine components or reused JS functions) you cannot say that in general you should use this or that `$escaper` method on bricks that you insert.
+Using `$escaper` to filter raw output of data from the DB or user input is important to protect against various attacks. [Official documentation](https://developer.adobe.com/commerce/php/development/security/cross-site-scripting/#phtml-templates) about this. 
 
-Rather, inside those brick templates themselves you should consider which parts should be escaped. When designing a brick template, you should ensure that the end user of the brick doesn't have to worry about it.
+However, the output from `$mason()` is the output of another block that already produces HTML. So the call to `$mason()` should NOT be escaped, but inside the PHTML template implementing your brick, you should use it normally.
+
+## Empty PHTML brick template
+
+Just copy paste this into a file and start designing:
+
+```php
+<?php declare(strict_types=1);
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Corrivate\LayoutBricks\Model\BrickAttributesBag $attributes */
+/** @var \Corrivate\LayoutBricks\Model\BrickPropsBag $props */
+
+// For Hyva users:
+/** @var \Hyva\Theme\Model\ViewModelRegistry $viewModels */
+
+$props->default([
+    // you can supply default scalar values for your props
+])->expect([
+    // specify propName => type for your props
+]);
+?>
+
+
+<div <?= $attributes->default(['class' => '']) ?>>
+
+</div>
+
+```
+
 
 ## Corrivate
 (en.wiktionary.org)
