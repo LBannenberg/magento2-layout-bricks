@@ -5,7 +5,7 @@ declare(strict_types=1);
 /** @var \Corrivate\LayoutBricks\Model\BrickAttributesBag $attributes */
 /** @var \Corrivate\LayoutBricks\Model\BrickPropsBag $props */
 
-$props->default(['block_id' => null]);
+$props->expect(['block_id' => 'string']);
 
 $cmsBlock =  $this->getLayout()
     ->createBlock('Magento\Cms\Block\Block')

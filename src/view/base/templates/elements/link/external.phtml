@@ -5,6 +5,8 @@ declare(strict_types=1);
 /** @var \Corrivate\LayoutBricks\Model\BrickAttributesBag $attributes */
 /** @var \Corrivate\LayoutBricks\Model\BrickPropsBag $props */
 
+$props->expect(['label' => 'string'])
+
 ?>
 
 <a <?= $attributes->default(['_target' => 'blank']) ?> >
