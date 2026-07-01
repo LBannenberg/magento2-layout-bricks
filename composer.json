@@ -3,6 +3,7 @@
     "description": "Use layout bricks in Magento, inspired by Laravel anonymous Blade components",
     "type": "magento2-module",
     "license": "MIT",
+    "version": "0.1.2",
     "authors": [
         {
             "name": "Lau Bannenberg",
